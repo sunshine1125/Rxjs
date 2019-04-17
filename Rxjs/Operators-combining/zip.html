@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  const { Observable, Subject, ReplaySubject, from, of, zip, } = rxjs;
+  const { map, filter, switchMap, concatAll, takeUntil, combineLatest } = rxjs.operators;
+
+  let age$  = of(27, 25, 29);
+  let name$ = of('Foo', 'Bar', 'Beer');
+
+  // zip中的参数值都发生变化才会触发, 并且是各个 observable 相同顺位送出的值
+  zip(age$, name$)
+    .pipe(
+      map((mixArr, index) => ({ mixArr, index })),
+    )
+    .subscribe(x => console.log(x));
+
+
+  // merge
+</script>
+</html>
