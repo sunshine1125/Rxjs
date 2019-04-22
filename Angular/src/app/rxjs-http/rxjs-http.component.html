@@ -1,0 +1,10 @@
+<div>
+  <h3>使用async</h3>
+  <p>ID: {{ (postDetail$ | async)?.id }}</p>
+  <p>Title: {{ (postDetail$ | async)?.title }}</p>
+  <p>Body: {{ (postDetail$ | async)?.body }}</p>
+</div>
+<hr>
+<h3>使用async管道，如果是observable会自动subscribe，如果是promise会自动then</h3>
+<p>{{ observable | async }}</p>
+<p>{{ promise | async }}</p>

@@ -1,0 +1,31 @@
+<h3>User form</h3>
+<form [formGroup]="form">
+  <pre>{{form.value | json}}</pre>
+  <h3>Reactive Forms 响应式表单，使用Rxjs实现过滤，验证，收集表单信息(打开console)</h3>
+  <p>都填写值才会打印信息</p>
+  username: <input type="text" name="username" formControlName="username">
+  email: <input type="email" email formControlName="email">
+  status:
+  <select name="status" formControlName="status">
+    <option value="">All</option>
+    <option value="1">On</option>
+    <option value="0">Off</option>
+  </select>
+  comment:
+  <textarea name="comment" formControlName="comment" placeholder="过滤<>符号"></textarea>
+</form>
+
+<h3>模板驱动表单</h3>
+<form #loginForm2=ngForm (ngSubmit)="onSubmit(loginForm2.value)">
+  <pre>{{loginForm2.value | json}}</pre>
+  <div>
+    用户名: <input type="text" name="username" ngModel>
+  </div>
+  <div ngModelGroup="passwordGroup">
+    密码：<input type="text" name="password" ngModel>
+    确认密码：<input type="text" name="re-password" ngModel #repassword="ngModel">
+  </div>
+  <button (click)="onReset2(loginForm2)">reset value</button>
+  <button type="submit">submit</button>
+  <button (click)="onTest(repassword)">test</button>
+</form>
