@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  // https://rxjs-cn.github.io/learn-rxjs-operators/operators/combination/race.html
+  // 使用首先发出值的 observable
+
+  const { fromEvent, from, timer, combineLatest, of, forkJoin, race } = rxjs;
+  const  {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
+    filter, switchMap, concatAll, takeUntil, delay } = rxjs.operators;
+
+
+  // 例1  立即输出结果，由最快的决定
+  const p = () => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(`hello world`), 3000)
+    });
+  };
+
+  race(
+    of(1),
+    of(2).pipe(delay(2000)),
+    p(), // 立即输出: 1
+  ).subscribe(val => console.log(val));
+
+</script>
+</html>

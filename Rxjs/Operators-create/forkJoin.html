@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  // https://rxjs-cn.github.io/learn-rxjs-operators/operators/combination/forkjoin.html
+  // 当所有 observables 完成时，发出每个 observable 的最新值。
+  // 与 Promise.all 的使用方式类似
+
+  const {fromEvent, from, timer, combineLatest, of, forkJoin} = rxjs;
+  const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
+    filter, switchMap, concatAll, takeUntil, delay} = rxjs.operators;
+
+
+  // 例1  3s后输出结果，由最慢的决定
+  const p = () => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(`hello world`), 3000)
+    });
+  };
+
+  forkJoin(
+    of(1),
+    // 2s 后发出
+    of(2).pipe(delay(2000)),
+    p(), // 输出: [1, 2, "hello world"]
+  ).subscribe(val => console.log(val));
+
+
+  // 例2
+  /* Angular 模拟
+
+  const allPermissions$ = this.service.getAllPerms();
+  const allRoles$ = this.service.getAllRoles();
+  forkJoin([allPermissions$, allRoles$])
+  .subscribe(result => {
+    console.log(result)
+  });
+
+  * */
+
+</script>
+</html>
