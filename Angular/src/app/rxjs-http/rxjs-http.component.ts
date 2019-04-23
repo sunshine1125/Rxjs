@@ -41,7 +41,7 @@ export class RxjsHttpComponent implements OnInit {
     this.postDetail$ = this.service.getPostDetail(1)
     .pipe(
       map(res => res),
-      // 防止重复使用 async 时请求多次的情况
+      // 防止重复使用 async 多次时请求多次的情况
       share()
     )
     // .toPromise()
