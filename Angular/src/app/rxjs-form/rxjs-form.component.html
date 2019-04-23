@@ -1,10 +1,14 @@
-<h3>User form</h3>
 <!-- 转换为Observable事件流 -->
 <input type="text" name="search" placeholder="Search" (change)="searchChange$.next($event.target.value)">
-<form [formGroup]="form">
+
+<hr>
+
+<h3>User form</h3>
+
+<form *ngIf="user$ | async; else loading" [formGroup]="form">
   <pre>{{form.value | json}}</pre>
   <h3>Reactive Forms 响应式表单，使用Rxjs实现过滤，验证，收集表单信息(打开console)</h3>
-  username: <input type="text" name="username" formControlName="username" (change)="usernameChange$.next($event.target.value)">
+  username: <input type="text" name="username" formControlName="username">
   email: <input type="email" email formControlName="email">
   status:
   <select name="status" formControlName="status">
@@ -15,3 +19,6 @@
   comment:
   <textarea name="comment" formControlName="comment" placeholder="过滤<>符号"></textarea>
 </form>
+<ng-template #loading>
+  Loading User...
+</ng-template>

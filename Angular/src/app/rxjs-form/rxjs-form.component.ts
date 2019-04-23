@@ -24,11 +24,10 @@ export class RxjsFormComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    this.initSearch();
+  }
 
-    this.user$ = this.service.loadUser().pipe(
-      tap(user => this.form.patchValue(user))
-    );
-
+  initSearch() {
     this.searchChange$
     .pipe(
       // 延迟一会
@@ -47,6 +46,15 @@ export class RxjsFormComponent implements OnInit {
       status: [''],
       comment: [''],
     });
+
+    this.user$ = this.service.loadUser().pipe(
+      // tap 返回的还是 Observable 这里我们不订阅，我们在模板中使用 async pipe 和 if else 语句实现按条件显示表单
+      tap(user => {
+        this.form.patchValue(user);
+        console.log(user)
+      })
+      // .subscribe();
+    );
 
     this.form.valueChanges
     .pipe(
