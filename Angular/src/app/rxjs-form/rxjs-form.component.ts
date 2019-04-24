@@ -10,7 +10,7 @@ import { RxjsHttpService, User } from '../rxjs-http/rxjs-http.service';
   styleUrls: ['./rxjs-form.component.styl']
 })
 export class RxjsFormComponent implements OnInit {
-  @Output() $emitQuery = new EventEmitter<any>();
+  // @Output() emitQuery$ = new EventEmitter<any>();
   // 接收input的值
   searchChange$ = new Subject<string>();
   user$: Observable<User>;
@@ -30,7 +30,8 @@ export class RxjsFormComponent implements OnInit {
   initSearch() {
     this.searchChange$
     .pipe(
-      // 延迟一会
+      // 防止频繁
+      // 如果在800毫秒内没有新事件产生，那么之前的事件将通过；如果在800毫秒内有新事件产生，那么之前的事件将被舍弃。
       debounceTime(800),
       // filter(x => x.includes('m')),
     )

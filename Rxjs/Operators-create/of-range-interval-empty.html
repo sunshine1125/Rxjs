@@ -6,7 +6,9 @@
 </head>
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
-  const {of, range, interval} = rxjs;
+  const {of, range, interval, empty} = rxjs;
+  const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
+    filter, switchMap, concatAll, takeUntil} = rxjs.operators;
 
   const observer = {
     next: value => {
@@ -40,9 +42,15 @@
   */
   range(10, 2).subscribe(observer);
 
+  // 不会执行 next，直接执行 complete
+  empty().subscribe({
+    next: () => console.log(`empty`),
+    complete: () => console.log('empty Complete!')
+  });
+
   // 从0开始计数，每间隔num ms秒发射一次
   const num = 1000;
-  interval(num).subscribe(observer);
+  interval(num).pipe(take(10)).subscribe(observer);
 
 </script>
 </html>

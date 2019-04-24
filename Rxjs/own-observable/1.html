@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>RxJS  Demo</title>
@@ -23,16 +23,11 @@
     observer.next(2);
   });
 
-
-
-
-
   let observer = {
     next(value) {
       console.log(value);
     }
   };
-
 
   observable.subscribe(observer);
 </script>

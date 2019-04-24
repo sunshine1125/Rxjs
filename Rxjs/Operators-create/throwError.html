@@ -8,7 +8,7 @@
 </body>
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
-  const {from} = rxjs;
+  const {from, throwError} = rxjs;
 
   function f() {
     return from(arguments);
@@ -26,23 +26,10 @@
     }
   };
 
-  // Array Like Object
-  f(1, 2, 3).subscribe(observer);
+  const source = throwError('This is an error!');
 
-  // string
-  from('foo').subscribe(observer);
-
-  // Set, any iterable object
-  const s = new Set(['foo', window]);
-  from(s).subscribe(observer);
-
-  // Promise
-  const source = from(new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('Hello RxJS!');
-      },3000)
-    }));
-
+  // 结果 Error: This is an error!
+  // 即调用 observer 的 error 方法
   source.subscribe(observer);
 
 </script>

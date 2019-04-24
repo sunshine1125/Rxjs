@@ -6,7 +6,11 @@
 </head>
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
+  // 给定持续时间后，再按照指定间隔时间依次发出数字。
+  // delay 是运算符, timer 为了创建Observable
+
   const {timer} = rxjs;
+  const {delay, take, skip, takeLast, last, merge, concat, map, filter, switchMap, concatAll, takeUntil} = rxjs.operators;
 
   const observer = {
     next: value => {

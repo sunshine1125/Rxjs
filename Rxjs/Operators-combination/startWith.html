@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  const {of, from, interval} = rxjs;
+  const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
+    filter, switchMap, concatAll, takeUntil} = rxjs.operators;
+
+  /*
+   *  示例 1: 对数字序列使用 startWith
+   */
+
+  // 发出 (1,2,3)
+  // 输出: 0,1,2,3
+  of(1, 2, 3)
+    .pipe(startWith(0))  // 从 0开始
+    .subscribe(val => console.log(val));
+
+  /*
+   *  示例 2: startWith 用作 scan 的初始值
+   */
+
+
+  /*
+    输出:
+    "Hello"
+    "Hello World!"
+    "Hello World! Goodbye"
+    "Hello World! Goodbye World!"
+  */
+  // // 发出 ('World!', 'Goodbye', 'World!')
+  of('World!', 'Goodbye', 'World!')
+  .pipe(
+    startWith('Hello'),  // 以 'Hello' 开头，后面接当前字符串
+    scan((acc, curr) => `${acc} ${curr}`)
+  ).subscribe(val => console.log(val));
+
+
+  /*
+   *  示例 3: 使用多个值进行 startWith
+   */
+
+  // 每1秒发出值
+  interval(1000)
+    .pipe(startWith(-3, -2, -1))  // 以 -3, -2, -1 开始
+    .subscribe(val => console.log(val));  // 输出: -3, -2, -1, 0, 1, 2....
+
+</script>
+</html>
