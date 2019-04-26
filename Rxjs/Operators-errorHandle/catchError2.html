@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  // catch / catchError
+  // 优雅地处理 observable 序列中的错误
+  // 记住要在 catch 函数中返回一个 observable !
+
+  const { throwError, of } = rxjs;
+  const { catchError } = rxjs.operators;
+
+  // 发出错误
+  const source = throwError('This is an error!');
+  // 优雅地处理错误，并返回带有错误信息的 observable
+  const example = source.pipe(catchError(val => of(`I caught: ${val}`)));
+  // 输出: 'I caught: This is an error'
+  const subscribe = example.subscribe(val => console.log(val));
+
+</script>
+</html>
