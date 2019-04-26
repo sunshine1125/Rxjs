@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/combination/concat.html
+    // concat
+    // 按照顺序，前一个 observable 完成了再订阅下一个 observable 并发出值
+    // 此操作符可以既有静态方法，又有实例方法
+    const { concat } = rxjs.operators;
+    const { of } = rxjs;
+
+    // 发出 1,2,3
+    const sourceOne = of(1, 2, 3);
+    const sourceTwo = of(4, 5, 6);
+
+    // 先发出 sourceOne 的值，当完成时订阅 sourceTwo
+    const example = sourceOne.pipe(concat(sourceTwo));
+    // 输出: 1,2,3,4,5,6
+    const subscribe = example.subscribe(val =>
+        console.log('Example: Basic concat:', val)
+    );
+</script>
+</html>

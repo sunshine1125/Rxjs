@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/combination/merge.html
+    // merge
+    // 将多个observables转换成单个observable
+    // 此操作符可以既有静态方法，又有实例方法
+    const { mapTo } = rxjs.operators;
+    const { interval, merge } = rxjs;
+
+    // 每2.5秒发出值
+    const first = interval(2500);
+    // 每2秒发出值
+    const second = interval(2000);
+    // 每1.5秒发出值
+    const third = interval(1500);
+    // 每1秒发出值
+    const fourth = interval(1000);
+
+    // 从一个 observable 中发出输出值
+    const example = merge(
+        first.pipe(mapTo('FIRST!')),
+        second.pipe(mapTo('SECOND!')),
+        third.pipe(mapTo('THIRD')),
+        fourth.pipe(mapTo('FOURTH'))
+    );
+    // 输出: "FOURTH", "THIRD", "SECOND!", "FOURTH", "FIRST!", "THIRD", "FOURTH"
+    const subscribe = example.subscribe(val => console.log(val));
+</script>
+</html>

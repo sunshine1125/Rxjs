@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/combination/pairwise.html
+    // pairwise
+    // 将前一个值和当前值作为数组发出
+    // 此操作符可以既有静态方法，又有实例方法
+    const { pairwise, take } = rxjs.operators;
+    const { interval } = rxjs;
+
+    // 返回: [0,1], [1,2], [2,3], [3,4], [4,5]
+    interval(1000)
+        .pipe(
+            pairwise(),
+            take(5)
+        )
+        .subscribe(console.log);
+</script>
+</html>
