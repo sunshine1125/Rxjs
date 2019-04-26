@@ -10,7 +10,9 @@
   const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
     filter, switchMap, concatAll, takeUntil, catchError} = rxjs.operators;
 
-   // 1, 2, 3, I, II, III, IV, V
+  console.log('demo1: ');
+   // 输入 1, 2, 3, 4, 5
+   // 输出 1, 2, 3, error
    of(1, 2, 3, 4, 5).pipe(
      map(n => {
        if (n == 4) {
@@ -18,9 +20,46 @@
        }
        return n;
      }),
-     catchError(err => of(`some error happened`)),
+     catchError(err => of(`error`)),
    )
    .subscribe(x => console.log(x));
+
+   console.log('demo2: ');
+
+   of(1, 2, 3, 4, 5).pipe(
+     map(n => {
+       if (n === 4) {
+         throw 'four!';
+       }
+       return n;
+     }),
+     catchError((err, caught) => {
+       console.log(err);
+       console.log(caught);
+     }),
+     take(6),
+   )
+   .subscribe(x => console.log(x));
+
+    console.log('demo3: ');
+
+    of(1, 2, 3, 4, 5).pipe(
+      map(n => {
+        if (n == 4) {
+          throw 'four!';
+        }
+        return n;
+      }),
+      // err 就是 throw 的内容
+      catchError(err => {
+        throw 'error in source. Details: ' + err;
+      }),
+    )
+    .subscribe(
+      x => console.log(x),
+      err => console.log(err)
+    );
+    // 1, 2, 3, error in source. Details: four!
 
 </script>
 </html>

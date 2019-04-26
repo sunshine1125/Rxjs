@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  const {of, range, interval, empty, throwError, timer, } = rxjs;
+  const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
+    filter, switchMap, concatAll, takeUntil, catchError, retry, mergeMap, retryWhen, delayWhen, } = rxjs.operators;
+
+  console.log('demo1: ');
+  // 每1秒发出值
+  const source = interval(1000);
+  const example = source.pipe(
+    map(val => {
+      if (val > 5) {
+        // 错误将由 retryWhen 接收
+        throw val;
+      }
+      return val;
+    }),
+    retryWhen(errors =>
+       errors.pipe(
+          // 输出错误信息
+          tap(val => console.log(`Value ${val} was too high!`)),
+          // 5秒后重启
+          delayWhen(val => timer(val * 1000)
+        )
+      )
+    )
+  );
+
+  /*
+    输出:
+    0
+    1
+    2
+    3
+    4
+    5
+    "Value 6 was too high!"
+    -- 等待5秒后然后重复此过程
+  */
+  const subscribe = example.subscribe(val => console.log(val));
+
+
+</script>
+</html>

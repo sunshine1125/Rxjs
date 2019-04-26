@@ -19,7 +19,7 @@
   // 共同特点：这三个 operators 可以把第一个参数所回传的 promise 对象直接转成 observable，这样我们就不用再用 Rx.Observable.from 转一次
 
   // switchMap 只保留最新的  大多数情况 typeheader
-  // mergeMap 并行执行       网络请求
+  // mergeMap  并行执行      网络请求
   // concatMap 一个接着一个执行  UI动画
 
   let source = fromEvent(document.querySelector('#btn'), 'click');
