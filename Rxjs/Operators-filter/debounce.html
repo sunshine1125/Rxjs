@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/debounce.html
+    // debounce
+    // 根据一个选择器函数，舍弃掉在两次输出之间小于指定时间的发出值
+    // 尽管没有 debounceTime 使用广泛，但当 debounce 的频率是变量时, debounce 是很重要的！
+
+    const { interval, timer } = rxjs;
+    const { debounce } = rxjs.operators;
+
+    // 每1秒发出值, 示例: 0...1...2
+    const interval$ = interval(1000);
+    // 每1秒都将 debounce 的时间增加200毫秒
+    const debouncedInterval = interval$.pipe(debounce(val => timer(val * 200)));
+    /*
+      5秒后，debounce 的时间会大于 interval 的时间，之后所有的值都将被丢弃
+      输出: 0...1...2...3...4......(debounce 的时间大于1秒后则不再发出值)
+    */
+    const subscribe = debouncedInterval.subscribe(val =>
+        console.log(`Example Two: ${val}`)
+    );
+
+</script>
+</html>

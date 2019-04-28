@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/first.html
+    // first
+    // 发出第一个值或第一个通过给定表达式的值
+    // 与 first 对应的操作符是 last！
+
+    const { from } = rxjs;
+    const { first } = rxjs.operators;
+
+    /*// 1. 序列中的第一个值
+    const source = from([1, 2, 3, 4, 5]);
+    // 没有参数则发出第一个值
+    const example = source.pipe(first());
+    // 输出: "First value: 1"
+    const subscribe = example.subscribe(val => console.log(`First value: ${val}`));*/
+
+    // 2. 第一个通过predicate函数的值
+    const source = from([1, 2, 3, 4, 5]);
+    // 没有值通过的话则发出默认值
+    const example = source.pipe(first(val => val > 5, 'Nothing'));
+    // 输出: 'Nothing'
+    const subscribe = example.subscribe(val => console.log(val));
+
+
+</script>
+</html>
