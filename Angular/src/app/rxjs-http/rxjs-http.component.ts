@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { delay, share, debounceTime, take, map } from 'rxjs/operators';
-import { Observable, Subject, concat, merge, zip, combineLatest, race, interval } from 'rxjs';
+import { delay, share, debounceTime, take, map, catchError } from 'rxjs/operators';
+import { Observable, Subject, concat, merge, zip, combineLatest, race, interval, of } from 'rxjs';
 import { RxjsHttpService } from './rxjs-http.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class RxjsHttpComponent implements OnInit {
     .pipe(
       map(res => res),
       // 防止重复使用 async 多次时请求多次的情况
-      share()
+      share(),
     )
     // .toPromise()
   }
