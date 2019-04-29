@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+
+    const { from, interval, timer } = rxjs;
+    const { filter, take, last, startWith, skip, takeUntil, takeWhile, skipWhile, skipUntil } = rxjs.operators;
+
+
+    interval(1000)
+      .pipe(
+        // timer(5000) 是等待5s发出值
+        // skipUntil 舍弃timer(5000)开始发出之前的那些值
+        skipUntil(timer(5000))
+      )
+      // 从 4 开始输出 每秒1发送一次
+      .subscribe(val => console.log(val));
+
+
+    interval(1000)
+      .pipe(
+        // timer(5000) 是等待5s发出值
+        // skipWhile 舍弃timer(5000)开始发出之前的那些值
+        skipWhile((val) => val < 5)
+      )
+      // 从 -5 开始输出 每秒1发送一次
+      .subscribe(val => console.log(`-${val}`));
+</script>
+</html>

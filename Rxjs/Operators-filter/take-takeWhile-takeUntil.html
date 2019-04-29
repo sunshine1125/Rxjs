@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/filter.html
+    // filter
+    // 发出符合给定条件的值
+
+    const { from, interval, timer } = rxjs;
+    const { filter, take, last, startWith, skip, takeUntil, takeWhile, skipWhile } = rxjs.operators;
+
+
+    interval(1000)
+      .pipe(
+        // timer(5000) 是等待5s发出值
+        // takeUntil 只取timer(5000)开始发出之前的那些值
+        takeUntil(timer(5000))
+      )
+      .subscribe(val => console.log(val));
+
+
+    interval(1000)
+      .pipe(
+        // timer(5000) 是等待5s发出值
+        // takeWhile 只取timer(5000)开始发出之前的那些值
+        takeWhile((val) => val < 5)
+      )
+      .subscribe(val => console.log(`-${val}`));
+</script>
+</html>

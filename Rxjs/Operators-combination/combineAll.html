@@ -23,7 +23,7 @@
         map(val => interval(1000).pipe(
             map(i => `Result (${val}): ${i}`), take(5)
         ))
-    )
+    );
     /*
       soure 中的2个值会被映射成2个(内部的) interval observables，
       这2个内部 observables 每秒使用 combineLatest 策略来 combineAll，
