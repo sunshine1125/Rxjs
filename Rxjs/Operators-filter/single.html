@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/single.html
+    // single
+    // 发出通过表达式的单一项。
+
+    const { from } = rxjs;
+    const { single } = rxjs.operators;
+
+    // 发出 (1,2,3,4,5)
+    const source = from([1, 2, 3, 4, 5]);
+    // 发出匹配断言函数的一项，和first的功能差不多
+    const example = source.pipe(single(val => val === 4));
+    // 输出: 4
+    const subscribe = example.subscribe(val => console.log(val));
+
+</script>
+</html>

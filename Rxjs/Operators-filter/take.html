@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+<div id="locationDisplay">
+    Where would you click first?
+</div>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/take.html
+    // take
+    // 在完成前发出N个值(N由参数决定)。
+    // 为什么使用 take？
+    // 当只对开头的一组值感兴趣时，你想要的便是 take 操作符。
+    // 也许你想看看当用户第一次进入页面时，用户首先点击的是什么，你想要订阅点击事件并只取首个值。
+    // 举例来说，你想要观看赛跑，但其实你只对首先冲过终点的人感兴趣。
+    // 此操作符很清晰明了，你想要取开头n个值。
+
+    const { of, fromEvent } = rxjs;
+    const { take, tap } = rxjs.operators;
+
+    // 1. 从源 observable 中取第一个值
+    // 发出 1,2,3,4,5
+//    const source = of(1, 2, 3, 4, 5);
+//    // 取第一个发出的值然后完成
+//    const example = source.pipe(take(1));
+//    // 输出: 1
+//    const subscribe = example.subscribe(val => console.log(val));
+
+
+    // 2. 取得首次点击的坐标
+    const oneClickEvent = fromEvent(document, 'click').pipe(
+        take(1),
+        tap(v => {
+            document.getElementById(
+                'locationDisplay'
+            ).innerHTML = `Your first click was on location ${v.screenX}:${v.screenY}`;
+        })
+    );
+
+    const subscribe = oneClickEvent.subscribe();
+
+</script>
+</html>

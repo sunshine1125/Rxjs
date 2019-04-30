@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/skipwhile.html
+    // skipWhile
+    // 跳过源 observable 发出的值，直到提供的表达式结果为 false 。
+
+    const { interval } = rxjs;
+    const { skipWhile } = rxjs.operators;
+
+    //  当值小于阈值的时候跳过
+    // 每1秒发出值
+    const source = interval(1000);
+    // 当源 observable 发出的值小于5的时候，则跳过该值
+    const example = source.pipe(skipWhile(val => val < 5));
+    // 输出: 5...6...7...8........
+    const subscribe = example.subscribe(val => console.log(val));
+
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/skip.html
+    // skip
+    // 跳过N个(由参数提供)发出值。
+    // skip 允许你忽略源 observable 开头的n个值。
+    // 通常，当你总是想忽略 observable 的某些值时，应该使用 skip 。
+    // 或许你不需要这些开头的值，或许你订阅了 Replay 或 BehaviorSubject 从而不需要初始值。
+    // 如果你不关心开头的一组值，那就使用 skip 吧。
+    // 你可以使用 filter 加索引来模拟 skip 。例如 .filter((val, index) => index > 1) 。
+
+    const { interval, from } = rxjs;
+    const { skip, filter } = rxjs.operators;
+
+    // 1. 在发送前跳过N个值
+    /*// 每1秒发出值
+    const source = interval(1000);
+    // 跳过前5个发出值
+    const example = source.pipe(skip(5));
+    // 输出: 5...6...7...8........
+    const subscribe = example.subscribe(val => console.log(val));*/
+
+    // 2. filter 特定用法的简写形式
+    const numArrayObs = from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+    // 3,4,5...
+    const skipObs = numArrayObs.pipe(skip(2)).subscribe(console.log);
+
+    // 3,4,5...
+    const filterObs = numArrayObs
+        .pipe(filter((val, index) => index > 1))
+        .subscribe(console.log);
+
+    // 同样的输出！
+
+</script>
+</html>
