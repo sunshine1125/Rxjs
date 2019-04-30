@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/skipuntil.html
+    // skipUntil
+    // 跳过源 observable 发出的值，直到提供的 observable 发出值。
+
+    const { interval, timer } = rxjs;
+    const { skipUntil } = rxjs.operators;
+
+    //  跳过值直到另个 observable 发出值
+    // 每1秒发出值
+    const source = interval(1000);
+    // 跳过源 observable 发出的值，直到内部 observable 发出值 (6s后)
+    const example = source.pipe(skipUntil(timer(6000)));
+    // 输出: 5...6...7...8........
+    const subscribe = example.subscribe(val => console.log(val));
+
+</script>
+</html>

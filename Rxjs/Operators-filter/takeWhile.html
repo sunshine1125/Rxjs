@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/takewhile.html
+    // takeWhile
+    // 发出值，直到提供的表达式结果为 false 。
+
+    const { of } = rxjs;
+    const { takeWhile, filter } = rxjs.operators;
+
+    // 1. 使用限定条件取值
+    /*// 发出 1,2,3,4,5
+    const source = of(1, 2, 3, 4, 5);
+    // 允许值发出直到 source 中的值大于4，然后便完成
+    const example = source.pipe(takeWhile(val => val <= 4));
+    // 输出: 1,2,3,4
+    const subscribe = example.subscribe(val => console.log(val));*/
+
+    // 2. takeWhile() 和 filter() 的区别
+    // 发出 3, 3, 3, 9, 1, 4, 5, 8, 96, 3, 66, 3, 3, 3
+    const source = of(3, 3, 3, 9, 1, 4, 5, 8, 96, 3, 66, 3, 3, 3);
+
+    // 允许值通过直到源发出的值不等于3，然后完成
+    // 输出: [3, 3, 3]
+    source
+        .pipe(takeWhile(it => it === 3))
+        .subscribe(val => console.log('takeWhile', val));
+
+    // 输出: [3, 3, 3, 3, 3, 3, 3]
+    source
+        .pipe(filter(it => it === 3))
+        .subscribe(val => console.log('filter', val));
+
+</script>
+</html>

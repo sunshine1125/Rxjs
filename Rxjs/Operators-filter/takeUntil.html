@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/takeuntil.html
+    // takeUntil
+    // 发出值，直到提供的 observable 发出值，它便完成。在完成前发出N个值(N由参数决定)。
+
+    const { interval, timer } = rxjs;
+    const { takeUntil, filter, scan, map, withLatestFrom } = rxjs.operators;
+
+    // 1. 取值直到 timer 发出
+    /*// 每1秒发出值
+    const source = interval(1000);
+    // 5秒后发出值
+    const timer$ = timer(5000);
+    // 当5秒后 timer 发出值时， source 则完成
+    const example = source.pipe(takeUntil(timer$));
+    // 输出: 0,1,2,3
+    const subscribe = example.subscribe(val => console.log(val));*/
+
+    // 2. 取前5个偶数
+    // 每1秒发出值
+    const source = interval(1000);
+    // 是偶数吗？
+    const isEven = val => val % 2 === 0;
+    // 只允许是偶数的值
+    const evenSource = source.pipe(filter(isEven));
+    // 保存运行中的偶数数量
+    const evenNumberCount = evenSource.pipe(scan((acc, _) => acc + 1, 0));
+    // 不发出直到发出过5个偶数
+    const fiveEvenNumbers = evenNumberCount.pipe(filter(val => val > 5));
+
+    const example = evenSource.pipe(
+        // 还给出当前偶数的数量以用于显示
+        withLatestFrom(evenNumberCount),
+        map(([val, count]) => `Even number (${count}) : ${val}`),
+        // 当发出了5个偶数时，source 则完成
+        takeUntil(fiveEvenNumbers)
+    );
+    /*
+        Even number (1) : 0,
+      Even number (2) : 2
+        Even number (3) : 4
+        Even number (4) : 6
+        Even number (5) : 8
+    */
+    const subscribe = example.subscribe(val => console.log(val));
+
+</script>
+</html>

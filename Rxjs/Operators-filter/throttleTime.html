@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/filtering/throttletime.html
+    // throttleTime
+    // 当指定的持续时间经过后发出最新值。
+
+    const { interval, merge } = rxjs;
+    const { throttleTime, ignoreElements } = rxjs.operators;
+
+    // 1. 每5秒接收最新值
+    // 每1秒发出值
+    /*const source = interval(1000);
+    /!*
+      节流5秒
+      节流结束前发出的最后一个值将从源 observable 中发出
+    *!/
+    const example = source.pipe(throttleTime(5000));
+    // 输出: 0...6...12
+    const subscribe = example.subscribe(val => console.log(val));*/
+
+
+    // 2. 对合并的 observable 节流
+
+    // 每1秒发出值
+    const source = merge(
+        //  每0.75秒发出值
+        interval(750),
+        // 每1秒发出值
+        interval(1000)
+    );
+    // 在发出值的中间进行节流
+    const example = source.pipe(throttleTime(1200));
+    // 输出: 0...1...4...4...8...7
+    const subscribe = example.subscribe(val => console.log(val));
+
+</script>
+</html>
