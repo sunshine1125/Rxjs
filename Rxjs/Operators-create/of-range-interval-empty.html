@@ -7,8 +7,7 @@
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
   const {of, range, interval, empty} = rxjs;
-  const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
-    filter, switchMap, concatAll, takeUntil} = rxjs.operators;
+  const {take} = rxjs.operators;
 
   const observer = {
     next: value => {
@@ -34,6 +33,7 @@
   of([4, 5, 6]).subscribe(observer);
 
   // https://rxjs-dev.firebaseapp.com/api/index/function/range
+  // 依次发出给定区间内的数字
   // 从10开始递增+1连续发射两次， 输出 10, 11
   /*
   输出
@@ -42,6 +42,7 @@
   */
   range(10, 2).subscribe(observer);
 
+  // empty会给我们一个空的observable，如果我们订阅这个observable，会立即完成
   // 不会执行 next，直接执行 complete
   empty().subscribe({
     next: () => console.log(`empty`),
