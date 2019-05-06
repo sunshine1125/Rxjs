@@ -20,9 +20,9 @@
   // 注意，combineLatest 直到每个 observable 都至少发出一个值后才会发出初始值。
   // 可以用 startWith 初始化
 
-  const {fromEvent, from, timer, combineLatest} = rxjs;
+  const {fromEvent, from, timer, combineLatest, interval} = rxjs;
   const {mapTo, startWith, scan, tap, map, take, skip, takeLast, last, merge, concat,
-    filter, switchMap, concatAll, takeUntil} = rxjs.operators;
+    filter, switchMap, concatAll, takeUntil, } = rxjs.operators;
 
   // 用来设置 HTML 的辅助函数
   const setHtml = id => val => (document.getElementById(id).innerHTML = val);
@@ -42,5 +42,15 @@
     .pipe(map(([val1, val2]) => val1 + val2))
     .subscribe(setHtml('total'));
 
+
+  rxjs
+    .combineLatest(
+      interval(500).pipe(take(3)),
+      interval(300).pipe(take(6)),
+    )
+    // .pipe(map(([val1, val2]) => val1 + val2))
+    .subscribe(val =>
+      console.log(val)
+    );
 </script>
 </html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS  Demo</title>
+</head>
+<body>
+<button id="btn">concatAll</button>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    // https://rxjs-cn.github.io/learn-rxjs-operators/operators/combination/concat.html
+    // concat 合并多个 observable
+    // 按照顺序，前一个 observable 完成了再订阅下一个 observable 并发出值
+    // 此操作符可以既有静态方法，又有实例方法
+    const { concat, merge, take, map, concatAll } = rxjs.operators;
+    const { of, interval, fromEvent } = rxjs;
+
+    // 发出 1,2,3
+    const sourceOne = of(1, 2, 3);
+    const sourceTwo = of(4, 5, 6);
+    const sourceThree = of(7, 8);
+
+    // 先发出 sourceOne 的值，当完成时订阅 sourceTwo
+    // 输出: 1,2,3,4,5,6,7,8
+    // 特点： 必须先等前一个 observable 完成(complete)，才会继续下一个
+    sourceOne
+      .pipe(
+        concat(sourceTwo, sourceThree)
+      )
+      .subscribe(val =>
+        console.log('Example: Basic concat:', val)
+      );
+
+    //  等价写法， 把 concat 作为静态方法使用，这样更直观
+    rxjs
+      .concat(sourceOne, sourceTwo)
+      .subscribe(val =>
+        console.log(val)
+      );
+
+
+    // merge 把多个 observable 同时处理，这跟 concat 一次处理一个 observable 是完全不一样的
+    // 同样 既有静态方法，又有实例方法
+    rxjs
+      .merge(
+        interval(500).pipe(take(3)),
+        interval(300).pipe(take(6)),
+      )
+      .subscribe(val =>
+        console.log(val)
+      );
+
+
+    // sourceOne
+    //   .pipe(
+    //     merge(sourceTwo)
+    //   )
+    //   .subscribe(val =>
+    //     console.log(val)
+    //   );
+
+    // 我们每点击一次 body 就会立刻送出 1,2,3
+    fromEvent(document.body, 'click')
+      .pipe(
+        map(e =>
+          of(1,2,3)
+            .pipe(
+             // take(1),
+            )),
+        concatAll(),
+      )
+      .subscribe(val =>
+        console.log(val)
+      );
+
+
+</script>
+</html>

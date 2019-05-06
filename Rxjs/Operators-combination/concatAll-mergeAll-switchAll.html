@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+<button id="btn">button</button>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  // https://www.jianshu.com/p/18f39d6e189d
+  const {Observable, Subject, ReplaySubject,from, fromEvent, of, range, interval, zip} = rxjs;
+
+  const {map, mergeAll, concatAll, switchAll, take, filter, switchMap, takeUntil, skip} = rxjs.operators;
+
+  // concatAll： 处理完前一个 observable 才会在处理下一个 observable。
+  // switchAll：新的 observable 送出后直接处理新的 observable 不管前一个 observable 是否完成，每当有新的 observable 送出就会直接把旧的 observable 退订(unsubscribe)，永远只处理最新的 observable! (RxJS5中名称叫switch)
+  // mergeAll：并且能够同时处理所有的 observable
+
+  //  订阅click
+  const example = fromEvent(document.body, 'click')
+    .pipe(
+      // map 把送出的event事件转换为 Observable
+      // 每次点击送出一个新的 Observable
+      map(e => {
+        // console.log(e);
+        // 生成新的 Observable
+        return interval(1000)
+          .pipe(
+            take(3)
+          )
+      }),
+      // 修改为 concatAll，mergeAll，switchAll 体验区别
+      // concatAll 比如快速点击三次，会按顺序输出三次0,1,2
+      // switchAll 快速点击，只输出一次0,1,2，也就是说老的舍去只保留最新的
+      // mergeAll 快速点击，会重复的输出多次0，1等
+      mergeAll()
+    );
+
+
+  example.subscribe({
+    next: (value) => { console.log(value); },
+    error: (err)  => { console.log('Error: ' + err); },
+    complete: ()  => { console.log('complete'); }
+  });
+
+</script>
+</html>
