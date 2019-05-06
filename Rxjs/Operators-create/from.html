@@ -25,10 +25,11 @@
       console.log('Complete');
     }
   };
-
+  // 用from来接收任何可列举的参数
   // Array Like Object
   f(1, 2, 3).subscribe(observer);
 
+  // 还能用来接收字符串
   // string
   from('foo').subscribe(observer);
 
@@ -36,6 +37,7 @@
   const s = new Set(['foo', window]);
   from(s).subscribe(observer);
 
+  // 这里也可以用fromPromise，会有相同的效果
   // Promise
   const source = from(new Promise((resolve, reject) => {
       setTimeout(() => {

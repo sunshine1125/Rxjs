@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+  <p></p>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+    const {from} = rxjs;
+    const {map, mapTo} = rxjs.operators;
+
+    // map --- 对源observable的每个值应用投射函数
+    // 发出 (1,2,3,4,5)
+    const source = from([1, 2, 3, 4, 5]);
+    // 每个数字加10
+    const example = source.pipe(map(val => val + 10));
+    // 输出: 11,12,13,14,15
+    const subscribe = example.subscribe(val => console.log(val));
+
+
+
+    // mapTo --- 将每个发出值映射成常量
+    const example2 = source.pipe(mapTo(2));
+    // 输出： 2,2,2,2,2
+    example2.subscribe(val => console.log(val));
+
+</script>
+</html>

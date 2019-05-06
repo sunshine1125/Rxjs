@@ -8,11 +8,7 @@
 </body>
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
-  const {from, throwError} = rxjs;
-
-  function f() {
-    return from(arguments);
-  }
+  const {throwError} = rxjs;
 
   const observer = {
     next: value => {
