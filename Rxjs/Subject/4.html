@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+  <p></p>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  const subject = new rxjs.Subject();
+
+  // subject.subscribe 可以理解成 Event.AddListener
+  // subscriber 1
+  subject.subscribe((data) => {
+    console.log(data); // 0.24957144215097515 (random number)
+  });
+
+  // subscriber 2
+  subject.subscribe((data) => {
+    console.log(data); // 0.24957144215097515 (random number)
+  });
+
+  // 执行每个注册的 Listener
+  // 注意 输出的随机数值是一样的
+  subject.next(Math.random());
+
+</script>
+</html>

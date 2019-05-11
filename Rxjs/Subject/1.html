@@ -9,21 +9,12 @@
 </body>
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
-  // Observer 是一个物件，这个物件具有三个方法，分别是 next, error, complete
-  // 建立 Observable 最简单方法是用 create 方法
-  // create 接受一个observer回调函数作为参数
 
-  // var observable = rxjs.Observable
-  //   .create(function(observer) {
-  //     observer.next('Jerry');
-  //     observer.next('Anna');
-  //     observer.complete();
-  //     observer.next('not work');
-  //   })
   const {take} = rxjs.operators;
 
   const source = rxjs.interval(1000).pipe(take(3));
 
+  // 两次订阅是分开独立执行的
   // observer 其实就是实现了next方法，error方法和complete方法的对象
   const observerA = {
     next: value => {
@@ -49,21 +40,13 @@
     }
   };
 
-  // const subject = new rxjs.Subject();
-  // subject.subscribe(observerA);
-  // subject.subscribe(observerB);
 
-  // 建立观察者来订阅 observable
-  // 订阅一个 Observable 就像是执行一个 function
 
   // subscribe 会调用
   source.subscribe(observerA);
   setTimeout(() => {
     source.subscribe(observerB);
   }, 1000);
-  // observable.subscribe(observerB);
-
-  // observable.subscribe(subject)
 
 </script>
 </html>

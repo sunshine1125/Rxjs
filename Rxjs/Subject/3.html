@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+  <p></p>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  const {take} = rxjs.operators;
+
+  const source = rxjs.interval(1000).pipe(take(3));
+  // const subject = new rxjs.Subject();
+
+  // 自己实现简单的 subject
+  const observerA = {
+    next: value => {
+      console.log(`A:` + value )
+    },
+    error: error => {
+      console.log('Error:', error);
+    },
+    complete: () => {
+      console.log('complete');
+    }
+  };
+
+  const observerB = {
+    next: value => {
+      console.log(`B:` + value)
+    },
+    error: error => {
+      console.log('Error:', error);
+    },
+    complete: () => {
+      console.log('complete');
+    }
+  };
+
+  const subject = {
+    observers: [],
+    addObserver: function(observer) {
+      this.observers.push(observer)
+    },
+    next: function(value) {
+      this.observers.forEach(o => o.next(value))
+    },
+    error: function(error){
+      this.observers.forEach(o => o.error(error))
+    },
+    complete: function() {
+      this.observers.forEach(o => o.complete())
+    }
+  }
+
+  subject.addObserver(observerA);
+
+  subject.addObserver(observerB);
+
+  // 可以直接用 subject 的 next 方法传送值，所有订阅的 observer 就会接收到
+  subject.next('hello');
+  source.subscribe(subject);
+
+  // setTimeout(() => {
+  //   subject.addObserver(observerB);
+  // }, 1000);
+
+</script>
+</html>

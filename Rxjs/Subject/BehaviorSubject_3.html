@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+  <p></p>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  // const subject = new rxjs.Subject();
+  // BehaviorSubject 在建立时就需要给定一个状态，并在之后任何一次订阅，就会先送出最新的状态。
+  const subject = new rxjs.BehaviorSubject();
+
+  // subscriber 1
+  // 没有初始化值，输出 Subscriber A: undefined
+  subject.subscribe((data => {
+    console.log('Subscriber A:', data);
+  }));
+
+  // 输出 Subscriber A: 0.31844148701659925
+  subject.next(Math.random());
+  // 输出 Subscriber A: 0.7396588958927452
+  subject.next(Math.random());
+
+  // subscriber 2
+  // 当前
+  // 输出 Subscriber B: 0.7396588958927452
+  subject.subscribe((data) => {
+    console.log('Subscriber B:', data);
+  });
+
+  // 输出新随机数
+  // Subscriber A: 0.4656621943777137
+  // Subscriber B: 0.4656621943777137
+  subject.next(Math.random());
+
+  // 总结 每执行一次next，输出新随机数
+</script>
+</html>
