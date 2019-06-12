@@ -20,6 +20,9 @@ export class RxjsHttpComponent implements OnInit {
     this.getPostDetail();
     this.observable = this.getObservable();
     this.promise = this.getPromise();
+    this.testOf().then(res => {
+      console.log(res);
+    })
   }
 
 
@@ -29,6 +32,12 @@ export class RxjsHttpComponent implements OnInit {
       map((v) => v * v),
       take(10),
     );
+  }
+
+  async testOf() {
+    return await this.service.getUserList().toPromise().then(res => {
+      return res;
+    })
   }
 
   getPromise() {
