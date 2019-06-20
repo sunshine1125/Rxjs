@@ -39,9 +39,13 @@
     }
   };
 
-  // 不会执行，相当于注册 observer
+  // 不会执行，相当于注册 observer，只是将给定的观察者注册到观察者列表中
   subject.subscribe(observerA);
   subject.subscribe(observerB);
+//  setTimeout(() => {
+//      subject.subscribe(observerB);
+//  }, 2000)
+
 
   // 注释去掉才会执行
   // source.subscribe(subject);

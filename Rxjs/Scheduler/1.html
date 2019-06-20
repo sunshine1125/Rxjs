@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxJS Demo</title>
+</head>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<body>
+
+</body>
+<script>
+    // 调度器可以让你规定 Observable 在什么样的执行上下文中发送通知给它的观察者。
+    // https://www.jianshu.com/p/5624c8a6bd2b
+    const observable = rxjs.Observable.create(observer => {
+        observer.next(1);
+        observer.next(2);
+        observer.next(3);
+        observer.complete();
+    })
+        // observeOn 作用
+        // 改变通知的Notifications执行时机，即Observables中的Next,Error,Complete函数
+        // 能够用于每个操作符的前面，即可以多次使用
+        .observeOn(rxjs.Scheduler.async); // 设置为async
+    console.log('just before subscribe');
+    observable.subscribe({
+        next: x=> console.log(`got value ${v}`),
+        error: err => console.error(`something wrong occurred: ${err}`),
+        complete: () => console.log('done')
+    });
+    console.log('just after subscribe');
+    // 输出结果：
+    /*just before subscribe
+    just after subscribe
+    got value 1
+    got value 2
+    got value 3
+    done*/
+</script>
+</html>
