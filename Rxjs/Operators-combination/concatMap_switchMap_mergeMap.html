@@ -12,7 +12,7 @@
 <script src='../lib/rxjs6.3.3.umd.js'></script>
 <script>
   const {Observable, Subject, ReplaySubject, from, fromEvent, of, range, interval, zip} = rxjs;
-  const {map, mergeAll, concatAll, switchAll, take, filter, switchMap, takeUntil} = rxjs.operators;
+  const {map, mergeAll, concatAll, switchAll, take, filter, switchMap, concatMap, takeUntil} = rxjs.operators;
 
   // concatMap 其实就是 map 加上 concatAll 的简化写法
 
@@ -25,12 +25,16 @@
   let source = fromEvent(document.querySelector('#btn'), 'click');
 
   // var example = source
-  //   .map(e => interval(1000).take(3))
-  //   .concatAll();
+  //   .pipe(
+  //    map(e => interval(1000).take(3))
+  //    concatAll();
+  // )
 
   // 简写
   let example = source
-    .concatMap(e => interval(100).take(3));
+     .pipe(
+       concatMap(e => interval(100).pipe(take(3)))
+     );
 
   example.subscribe({
     next: (value) => { console.log(value); },
@@ -47,13 +51,15 @@
 
   // switchMap 快速点击只打印一个log
   // mergeMap  快速点击打印所有log
-  let example2 = source2.switchMap(e => getPersonData());
+  let example2 = source2.pipe(
+    switchMap(e => getPersonData())
+  );
   //直接回传 promise 物件
 
   example2.subscribe({
     next: (value) => { console.log(value); },
-    error: (err) => { console.log('Error: ' + err); },
-    complete: () => { console.log('complete'); }
+    error: (err)  => { console.log('Error: ' + err); },
+    complete: ()  => { console.log('complete'); }
   });
 
 

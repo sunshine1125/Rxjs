@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RxJS  Demo</title>
+</head>
+<body>
+  <button id="btn">button</button>
+</body>
+<script src='../lib/rxjs6.3.3.umd.js'></script>
+<script>
+  const {Observable, Subject, ReplaySubject, from, fromEvent, of, range, interval, zip} = rxjs;
+  const {map, mergeAll, concatAll, switchAll, take, filter, switchMap, concatMap, takeUntil, share} = rxjs.operators;
+
+  let clickSubject$ = new Subject();
+
+  function getPersonData() {
+    return fetch('https://jsonplaceholder.typicode.com/posts/1')
+            .then(res => res.json())
+  }
+
+  document.querySelector('#btn').addEventListener('click', () => {
+    clickSubject$.next(undefined);
+  });
+
+  clickSubject$
+    .pipe(
+      map(e => getPersonData()),
+    )
+    .subscribe({
+      next: (value) => { console.log(value); },
+      error: (err)  => { console.log('Error: ' + err); },
+      complete: ()  => { console.log('complete'); }
+    });
+
+  // let source2 = fromEvent(document.querySelector('#btn'), 'click');
+  //
+  // // switchMap 快速点击只打印一个log
+  // // mergeMap  快速点击打印所有log
+  // let example2 = source2.pipe(
+  //   switchMap(e => getPersonData()),
+  //         share()
+  //
+  // );
+  // //直接回传 promise 物件
+  //
+  // example2.subscribe({
+  //   next: (value) => { console.log(value); },
+  //   error: (err)  => { console.log('Error: ' + err); },
+  //   complete: ()  => { console.log('complete'); }
+  // });
+
+
+
+
+</script>
+</html>
